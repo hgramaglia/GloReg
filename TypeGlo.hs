@@ -26,8 +26,9 @@ tkTau :: Pi -> Exc -> Tau
 tkTau pi (Var x) =  if esta x (map fst pi) then tau pi x else error ("Exc/tkTau: la variable " ++ x ++ " no esta en:\n" ++ editPi pi )
 tkTau pi (O (k,o,t) es) =  iop t
 tkTau pi (Tup es)  =  Prod (map (tkTau pi) es) 
-tkTau pi (If e e' e'') = if (tkTau pi e')==(tkTau pi e') then (tkTau pi e') 
-                         else error ("Exc tkTau en if: tipos no coincidentes:\n" ++ 
+tkTau pi (If e e' e'') = if (tkTau pi e')==(tkTau pi e'') then (tkTau pi e') else 
+                         if (tkTauf pi e')==(tkTauf pi e'') then (tkTauf pi e') else  
+                         error ("Exc tkTau en if: tipos no coincidentes:\n" ++ 
                                        show (tkTau pi e') ++ "  " ++ show (tkTau pi e'') )     
 tkTau pi (Let p e e')  = sust dta (tkTau (comaPip pi p lt0) e') -- sustitución inútil: el tipado impide let y = e ... con e: x B
                           where lt0 = tkTau pi e
@@ -221,7 +222,7 @@ tExc pi (IF ((e,e'):ps)) phi lt =  mtExc pis [e,e',IF ps] phi [lt0,lt,lt]
 tExc pi (Let p e e' ) phi lt = if lt==lt1 
                                then if pycTest pi p lt0 == [] 
                                     then --if p==VP "f" then error (show e ++ show lt0) else 
-                                         stPat p lt0 ++ mtExc (f spls) [e,e'] phi [lt0,lt1]
+                                         stPat p lt0 ++ mtExc [pi,comaPip pi p lt0] [e,e'] phi [lt0,lt1]
                                     else pycTest pi p lt0
                                    --else ["No se puede borrar globalidad con la localidad:\n" ++ 
                                    --       editPi (filter (\(x,t) -> esta x (fv p)) pi2) ++ "\n" ++ 
@@ -230,12 +231,9 @@ tExc pi (Let p e e' ) phi lt = if lt==lt1
                                      "Tipo esperado: " ++  show lt ++ "\n" ++ 
                                      "Tipo calculado de " ++ show e' ++ ":  " ++  show lt1 ++ "\n"]
  where
-  spls = [pi,pi]
-  pi2  = head (tail spls)
-  f (pi1 : (pi2:pis)) = pi1 : (pi2' : pis)  where pi2' = comaPip pi2 p lt0
-  lt0 = sust dta (tkTau pi e)      
+  lt0 = tkTau pi e -- sust dta (tkTau pi e)      
   dta = msust [] p (mapp pi e)      
-  lt1 = sust dta lt
+  lt1 = lt -- sust dta lt
   editseq  []           = []
   editseq [pi] =  "[" ++ editPi pi ++ "]"
   editseq  (pi:pis) =  "[" ++ editPi pi ++ "] " ++ editseq pis
@@ -254,7 +252,7 @@ tExc pi (App f ep e) phi lt =  -- if f=="f" then error (editPi pi) else
                       -- si se pone d en lugar de tkTau entonces el paréntesis sobra
                      then if d' <= te then tExc pi e phi te
                                       else [show (App f ep e) ++ "\n el tipo esperado " ++ show d' ++ 
-                                                              " no es <= que el tipo del input " ++ show te]
+                                                              " no es <= que el tipo del input " ++ show te ++ "\n"]
                      else [show (App f ep e) ++ "\n" ++ f ++ " for all con output o input no compatible:\n" ++
                            "Tipo de la función en el contexto: " ++  show tf ++ "\n" ++ 
                            "Tipo esperado: " ++  show lt ++ "\n"++ "Tipo de la imagen: " ++ show i' ++ "\n" ]
@@ -339,4 +337,3 @@ pycTest pi (VP x) (Q q s) = []
 pycTest pi (VP x) (FO q pp p t t') = []
 pycTest pi (P ps) (Prod ts) = concat (map (\(p,t) -> pycTest pi p t) (zip ps ts))
 pycTest pi p t = error ("TypeGlo:pycTest")
-
