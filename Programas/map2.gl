@@ -1,0 +1,53 @@
+
+b = 0, z = 0, f = 0, mapf = 0,
+A = {0,1,2,3,2,1,0,1},
+i = 0,
+n = 8,
+map  = \().\f.(\().\(A,i,n):(A array,i int,n int).
+          if (i ==^b n) then (A,i,n) else (let mapf = map () f in
+                                           mapf () ((A[i<-f () (A[i]^z)]^A,(+1)^i i,n))))^mapf
+------------------------------------
+let f = (\().\z:z int. (+1)^z z)^f in let mapf = map () f in mapf () ((A,0^i,8^n))
+------------------------------------
+
+------------------------------------
+b : b int, z : z int, f : f int, mapf : mapf int,
+
+A : A array,
+i : i int,
+n : n int,
+map  : map \f. f (\z.z int ->(z) z int) ->(b,z,f,mapf) mapf (\(A,i,n).(A array,i int,n int) 
+                                                             ->(b,z,f,mapf,A,i,n) (A array,i int,n int))
+------------------------------------
+(A array,i int,n int)
+------------------------------------
+
+
+
+
+b = 0, z = 0, f = 0, mapf = 0,
+A = {0,1,2,3,2,1,0,1},
+i = 0,
+n = 8,
+map  = \().\f.(\().\(A,i,n):(A array,i int,n int).
+          if (i ==^b n) then (A,i,n) else (let mapf = map () f in
+                                           mapf () ((A[i<-f () (A[i]^z)]^A,(+1)^i i,n))))^mapf
+------------------------------------
+let f = (\().\x:x int. (+1)^x x)^f in let mapf = map () f in mapf () ((A,0^i,8^n))
+------------------------------------
+
+------------------------------------
+b : b int, z : z int, f : f int, mapf : mapf int,
+
+A : A array,
+i : i int,
+n : n int,
+map  : map \f. f (\x.x int ->(x) x int) ->(b,z,f,mapf) mapf (\(A,i,n).(A array,i int,n int) 
+                                                             ->(b,z,f,mapf,A,i,n) (A array,i int,n int))
+------------------------------------
+(A array,i int,n int)
+------------------------------------
+
+
+
+

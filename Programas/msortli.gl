@@ -1,0 +1,41 @@
+
+A  = {15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,0},
+B  = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, 
+C  = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, 
+D  = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, 
+b = true, d = true, z = 0, zk = 0, zi = 0, 
+copy  = (\().\(D,i,K,j,n) . if j ==^b n then K else copy () (D,i,K[j<-D[j]^z]^K,(+1)^lo j,n)),
+merge = \(). \(B,k,mk,C,i,mi,D,j). 
+         if k ==^b mk &&^b i ==^d mi  -> (B,C,D) 
+         @  k ==^b mk &&^b i <=^d mi  -> merge () (B,k,mk,C,(+1)^lo i,mi,D[j <-C[i]^zi]^D,(+1)^lo j)
+         @  k <=^b mk  &&^b i ==^d mi -> merge () (B,(+1)^lo k,mk,C,i,mi,D[j <-B[k]^zk]^D,(+1)^lo j)
+         @                            -> let (zk,zi) = (B[k]^zk,C[i]^zi) in 
+                                          if zk <=^b zi -> merge () (B,(+1)^lo k,mk,C,i,mi,D[j <-zk]^D,(+1)^lo j)
+                                          @             -> merge () (B,k,mk,C,(+1)^lo i,mi,D[j <-zi]^D,(+1)^lo j),
+msort = (\().\(A,B,C,D,k,n) . if (==1)^b n then (B,C,D[k<-A[k]^z]^D) 
+                                    else let m = (%2)^lo n in
+                                         let (mk,i,mi) = (k +^lo m,k +^lo m,k +^lo n) in
+                                         let (B,C,D) = msort () (A,B,C,D,k,(%2)^lo n) in 
+                                         let (B,C,D) = msort () (A,B,C,D,i,(%2)^lo n) in 
+                                         let (B,C) = (copy () (D,k,B,k,mk),copy () (D,i,C,i,mi)) in
+                                         merge () (B,k,mk,C,i,mi,D,k))
+------------------------------------
+msort () (A,B,C,D,0,16)
+------------------------------------
+
+------------------------------------
+A      : lo array,
+B      : B array, 
+C      : C array,
+D      : D array, 
+b : b bool, d : d bool, z : z int, zk : zk int, zi : zi int, 
+copy   : lo \(D,i,K,j,n).(D array,lo int,K array,lo int,lo int) ->(b,z,D,K) K array,
+merge  : lo \(B,k,mk,C,i,mi,D,j).(B array,lo int,lo int,C array,lo int,lo int,D array,lo int) ->(b,d,zk,zi,D,B,C) 
+                                 (B array,C array,D array),
+msort  : lo \(A,B,C,D,k,n).(lo array,B array,C array,D array,lo int,lo int) ->(b,d,z,zi,zk,D,B,C) 
+                                 (B array,C array,D array)
+------------------------------------
+(B array,C array,D array)
+------------------------------------
+
+

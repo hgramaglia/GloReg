@@ -1,0 +1,30 @@
+
+
+b = true,
+x = 8,
+w = 1,
+y = 1,
+fib = \().\(x,b,w,y) . if (==0)^b x then (x,w,y) 
+                                    else let (x,w,y) = fib () ((-1)^x x,b,w,y)
+                                         in let z = id^lo(w) in (x,p2^w(w,y),(z +^y y))
+
+------------------------------------
+fib () ((x,b,w,y))
+------------------------------------
+ 
+------------------------------------
+b : b bool,
+x : x int,
+w : w int,
+y : y int,
+fib : lo \(x,b,w,y).(x int,b bool,w int,y int) ->(x,b,w,y) (x int,w int,y int)
+------------------------------------
+(x int,w int,y int)
+------------------------------------
+
+fib = \().\(x,b,w,y) . 
+        if (==0)^b x then (x,w,y) 
+        else let g = (\().\(x,w1,y1): (x int,w1 int,y1 int).
+                         let z = id^lo(w1) in (x,p2^w1(w1,y1),(z +^y1 y1)))^lo
+             in g () (fib () ((-1)^x x,b,w,y))
+

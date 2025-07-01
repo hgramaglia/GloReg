@@ -1,0 +1,44 @@
+
+b = true,
+w = 1,
+x = 12,
+fact = (\().\(y,z) . if (==0)^b z then (y,z) else fact () (((z *^y y),(-1)^z z)))
+------------------------------------
+fact () ((w,x))
+------------------------------------
+
+------------------------------------
+b : b bool,
+w : w int,
+x : x int,
+fact : fact \(y,z).(y int,z int) ->(b,y,z) (y int,z int)
+------------------------------------
+(w int,x int)
+------------------------------------
+
+
+
+b = true,
+w = 1,
+x = 12,
+fact = (\().\(w,x) . if (==0)^b x then (w,x) else fact () (((x *^w w),(-1)^x x)))
+------------------------------------
+fact () ((w,x))
+------------------------------------
+
+------------------------------------
+b : b bool,
+w : w int,
+x : x int,
+fact : fact \(w,x).(w int,x int) ->(b,w,x) (w int,x int)
+------------------------------------
+(w int,x int)
+------------------------------------
+
+
+Se debe poner fact : fact \(w,b,x):(w int,b bool,x int).(w int,x int) para que la conversión este tipada.
+OJO!!! si se pone fact : fact \(w,b,x):(lo int,lo bool,lo int).(w int,x int) está bien tipado según wlgl, 
+pero eso no debe ocurrir si se implementa el (;) sobre los entornos de tipos 
+(en wlgl no se usa en el tipado |-S:P, pero se debería usar )
+
+

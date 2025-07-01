@@ -1,0 +1,101 @@
+
+
+A = {0,1,2,3,2,1,0,1},
+i = 0,
+n = 8,
+map  = \().\f.(\().\(A,i,n):(A array,i int,n int).
+          if (i ==^lo n) then (A,i,n) else (let mapf = map () f in
+                                            mapf () ((A[i<-f () (A[i]^lo)]^A,(+1)^i i,n))))^lo
+------------------------------------
+let f = (\().\z:lo int. (+1)^z z)^lo in let mapf = map () f in mapf () ((A,0^i,8^n))
+------------------------------------
+
+
+------------------------------------
+A : A array,
+i : i int,
+n : n int,
+map  : lo \f. lo (\z.lo int ->(z) z int) ->() lo (\(A,i,n).(A array,i int,n int) ->(A,i,n) (A array,i int,n int))
+------------------------------------
+(A array,i int,n int)
+------------------------------------
+version 1, z colapsa parte de la region 0, pero colapsa menos que la versión 2
+
+
+
+
+
+A = {0,1,2,3,2,1,0,1},
+i = 0,
+n = 8,
+z = 0,
+map = \().\f.(\().\(A,i,n):(A array,i int,n int).
+          if (i ==^lo n) then (A,i,n) else (let mapf = map () f in
+                                            mapf () ((A[i<-f () (A[i]^z)]^A,(+1)^i i,n))))^lo
+------------------------------------
+let f = (\().\x:x int. (+1)^x x)^lo in let mapf = map () f in mapf () ((A,0^i,8^n))
+------------------------------------
+
+
+------------------------------------
+A : A array,
+i : i int,
+n : n int,
+z : lo int,
+map  : lo \f.lo (\x.x int ->(x) x int) ->(z) lo (\(A,i,n).(A array,i int,n int) ->(A,i,n,z) (A array,i int,n int))
+------------------------------------
+(A array,i int,n int)
+------------------------------------
+version 2, z local, colapsa totalmente la intervención de z en la region 0, da lo mismo poner z en lugar de x
+
+
+A = {0,1,2,3,2,1,0,1},
+i = 0,
+n = 8,
+z = 0,
+map = \().\f.(\().\(A,i,n):(A array,i int,n int).
+          if (i ==^lo n) then (A,i,n) else (let mapf = map () f in
+                                            mapf () ((A[i<-f () (A[i]^z)]^A,(+1)^i i,n))))^lo
+------------------------------------
+let f = (\().\x:x int. (+1)^x x)^lo in let mapf = map () f in mapf () ((A,0^i,8^n))
+------------------------------------
+
+
+------------------------------------
+A : A array,
+i : i int,
+n : n int,
+z : z int,
+map  : lo \f.lo (\x.x int ->(x) x int) ->(z) lo (\(A,i,n).(A array,i int,n int) ->(A,i,n,z) (A array,i int,n int))
+------------------------------------
+(A array,i int,n int)
+------------------------------------
+version 3: z global, pasaje x->z
+
+
+A = {0,1,2,3,2,1,0,1},
+i = 0,
+n = 8,
+z = 0,
+map = \().\f.(\().\(A,i,n):(A array,i int,n int).
+          if (i ==^lo n) then (A,i,n) else (let mapf = map () f in
+                                            mapf () ((A[i<-f () (A[i]^z)]^A,(+1)^i i,n))))^lo
+------------------------------------
+let f = (\().\z:z int. (+1)^z z)^lo in let mapf = map () f in mapf () ((A,0^i,8^n))
+------------------------------------
+
+
+------------------------------------
+A : A array,
+i : i int,
+n : n int,
+z : z int,
+map  : lo \f.lo (\z.z int ->(z) z int) ->(z) lo (\(A,i,n).(A array,i int,n int) ->(A,i,n,z) (A array,i int,n int))
+------------------------------------
+(A array,i int,n int)
+------------------------------------
+version 3: z global
+
+
+
+
