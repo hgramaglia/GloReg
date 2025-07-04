@@ -90,7 +90,7 @@ cc (str,aux,e,new,(m,n,k,cs,is)) = cs
 
 red   :: Modo -> Config -> [Config]
 
-red m (str,aux,e,new,inf) = if e==Var "v0_2" then error(show (isCt e)) else 
+red m (str,aux,e,new,inf) =  
          if int e  then (str,aux,Var interrupcion,new,inf) : []
          else 
          case isCt e of 
