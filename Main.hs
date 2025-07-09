@@ -109,7 +109,7 @@ red_ m xs (pi,str,e,t) = case m of
 --                         "su" -> last (red Subestructural (str,[],e,new,(tamb str,tamb str,0,[],[])))
 --                         "lo" -> last (red (Global []) (str,[],e,new,(tamb str,tamb str,0,[],[])))
                          "rl" -> last (red Regiones (str,[],e,new,(tamb str,tamb str,0,[],[])))
-                                      where new = newNew [1..iniciales (str,e)] --([1..iniciales (str,e)] ++ codIni (str,e))
+                                      where new = newNew [0..iniciales (str,e)] --([1..iniciales (str,e)] ++ codIni (str,e))
                          "gl" -> last (red (Global xs) (str,[],e,new,(tamb str,tamb str,0,[],[])))
                                       where new = [(0,1)]
 pred_ k m xs (pi,str,e,t) = case m of
@@ -117,7 +117,7 @@ pred_ k m xs (pi,str,e,t) = case m of
 --                           "su" -> last (partialRed k Subestructural (str,[],e,new,(tamb str,tamb str,0,[],[])))
 --                           "lo" -> last (partialRed k (Global []) (str,[],e,new,(tamb str,tamb str,0,[],[])))
                            "rl" -> last (partialRed k Regiones (str,[],e,new,(tamb str,tamb str,0,[],[])))
-                                      where new = newNew [1..iniciales (str,e)]
+                                      where new = newNew [0..iniciales (str,e)]
                            "gl" -> last (partialRed k (Global xs) (str,[],e,new,(tamb str,tamb str,0,[],[])))
                                       where new = newNew [0]
 sred_ m xs (pi,str,e,t) = case m of
